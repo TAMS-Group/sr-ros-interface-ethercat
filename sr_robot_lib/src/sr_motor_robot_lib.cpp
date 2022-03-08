@@ -480,7 +480,17 @@ namespace shadow_robot
       name << prefix << "SRDMotor " << joint->joint_name;
       d.name = name.str();
 
-      if (joint->has_actuator)
+      // Ignore Message: "Motor error"
+      // this error is reported because **there is no motor** for the joint
+      // because the biotac mounted on the thumb blocks the joint
+      // A proper solution would replace the transmission in the URDF
+      // for something that publishes a constant 20deg
+      // For the other J1 joints this would also be a better fix,
+      // but the problem is mostly hidden because the J0Transmission for J1+J2
+      // uses the hall effect sensor measurements reported by the hardware (it hallucinates and sends values for J1 as well)
+      // These values are then "calibrated" to a static value of 20deg in the calibration.yaml.
+      // -- v4hn@20220308 after some hours of digging through shadow's codebase
+      if (joint->has_actuator && joint->joint_name != "THJ1")
       {
         shared_ptr<MotorWrapper> actuator_wrapper = static_pointer_cast<MotorWrapper>(joint->actuator_wrapper);
         SrMotorActuator *actuator = this->get_joint_actuator(joint);
