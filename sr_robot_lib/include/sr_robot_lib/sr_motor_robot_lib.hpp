@@ -240,17 +240,6 @@ protected:
   bool change_control_type_callback_(sr_robot_msgs::ChangeControlType::Request &request,
                                      sr_robot_msgs::ChangeControlType::Response &response);
 
-  /*
-   * Load the necessary parameters in the Parameter Server and
-   * calls a service for every controller currently loaded in the controller manager to make it
-   * reload (resetGains()) its parameters from the Parameter Server
-   *
-   * @param control_type The new active control type (PWM or torque)
-   *
-   * @return true if all the steps successful
-   */
-  bool change_control_parameters(int16_t control_type);
-
   // The Flag which will be sent to change the motor controls
   std::queue<std::vector<sr_robot_msgs::MotorSystemControls>,
           std::list<std::vector<sr_robot_msgs::MotorSystemControls> > > motor_system_control_flags_;
