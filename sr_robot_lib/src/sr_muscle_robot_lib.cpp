@@ -75,10 +75,7 @@ namespace shadow_robot
 
             // Create a one-shot timer
             check_init_timeout_timer(this->nh_tilde.createTimer(init_max_duration,
-                                                                boost::bind(
-                                                                        &SrMuscleRobotLib<StatusType,
-                                                                                CommandType>::init_timer_callback,
-                                                                        this, _1), true)),
+                                                                [this](auto event){ init_timer_callback(event); }, true)),
             pressure_calibration_map_(read_pressure_calibration())
   {
 #ifdef DEBUG_PUBLISHER

@@ -116,10 +116,7 @@ namespace shadow_robot
       driver.reset_driver_service =
               this->nh_tilde.template advertiseService<std_srvs::Empty::Request,
                       std_srvs::Empty::Response>(ss.str().c_str(),
-                                                 boost::bind(
-                                                         &SrMuscleHandLib<StatusType,
-                                                                 CommandType>::reset_muscle_driver_callback,
-                                                         this, _1, _2, i));
+                                                 [this,i](auto req, auto res){ return reset_muscle_driver_callback(req,res, i); });
 
       this->muscle_drivers_vector_.push_back(driver);
     }

@@ -53,7 +53,7 @@ namespace generic_updater
   {
     // Create a one-shot timer
     check_timeout_timer = nh_tilde.createTimer(init_max_duration,
-                                               boost::bind(&MotorDataChecker::timer_callback, this, _1), true);
+                                               [this](auto event){ timer_callback(event); }, true);
     update_state = operation_mode::device_update_state::INITIALIZATION;
     msg_checkers_.clear();
 
